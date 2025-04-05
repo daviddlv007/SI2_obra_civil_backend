@@ -21,3 +21,9 @@ INSERT INTO persona_perro (persona_id, perro_id) VALUES (1, 1); -- Juan tiene a 
 INSERT INTO persona_perro (persona_id, perro_id) VALUES (2, 2); -- Maria tiene a Toby
 INSERT INTO persona_perro (persona_id, perro_id) VALUES (3, 3); -- Carlos tiene a Max
 INSERT INTO persona_perro (persona_id, perro_id) VALUES (4, 4); -- Ana tiene a Bella
+
+
+INSERT INTO usuario (nombre, apellido, correo, contrasena) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', '123');
+INSERT INTO usuario (nombre, apellido, correo, contrasena) VALUES ('María', 'Gómez', 'maria.gomez@example.com', 'securepass456');
+INSERT INTO usuario (nombre, apellido, correo, contrasena) VALUES ('Carlos', 'López', 'carlos.lopez@example.com', 'mypassword789');
+INSERT INTO usuario (nombre, apellido, correo, contrasena) VALUES ('Ana', 'Martínez', 'ana.martinez@example.com', 'anapass123');
