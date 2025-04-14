@@ -21,5 +21,5 @@ public class Auto {
 
     @ManyToOne
     @JoinColumn(name = "persona_id", nullable = false)
-    private Persona persona;  // Relación con la entidad Persona
+    private Persona persona;
 }
