@@ -24,4 +24,8 @@ public class Usuario {
 
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
+
+    @ManyToOne
+    @JoinColumn(name = "rol_id", referencedColumnName = "id")
+    private Rol rol;
 }
