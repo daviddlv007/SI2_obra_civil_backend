@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -24,6 +25,21 @@ public class Usuario {
 
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
+
+    @Column(name = "telefono", nullable = true, length = 20)
+    private String telefono;
+
+    @Column(name = "direccion", nullable = true, length = 255)
+    private String direccion;
+
+    @Column(name = "fecha_nacimiento", nullable = true)
+    private LocalDate fechaNacimiento;
+
+    @Column(name = "genero", nullable = true, length = 20)
+    private String genero;
+
+    @Column(name = "numero_identificacion", nullable = true, length = 50)
+    private String numeroIdentificacion;
 
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "id")
