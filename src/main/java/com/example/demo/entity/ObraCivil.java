@@ -3,6 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
+
 @Entity
 @Data
 @Table(name = "obra_civil")
@@ -61,5 +65,35 @@ public class ObraCivil {
     
     public enum TipoObra {
         VIVIENDA, COMERCIAL, INDUSTRIAL, OTROS
+    }
+
+    public ObraCivil() {
+        // Constructor sin parámetros
+    }
+
+    // Constructor con todos los parámetros (opcional)
+    public ObraCivil(String nombre, String descripcion,
+                     Double costoEstimado, Double costo,
+                     Double presupuesto, Double presupuestoDisponible,
+                     Date fechaInicio, Date fechaFin,
+                     String estado, Timestamp fechaCreacion,
+                     Timestamp fechaUltimaActualizacion,
+                     TipoObra tipoObra,
+                     String ubicacion, String plano, Date fechaTerminacionReal) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.costoEstimado = costoEstimado;
+        this.costo = costo;
+        this.presupuesto = presupuesto;
+        this.presupuestoDisponible = presupuestoDisponible;
+        this.fechaInicio = fechaInicio;
+        this.fechaFinEstimada = fechaFin;
+        this.estado = estado;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaUltimaActualizacion = fechaUltimaActualizacion;
+        this.tipoObra = tipoObra;
+        this.ubicacion = ubicacion;
+        this.planoUrl = plano;
+        this.fechaTerminacionReal = fechaTerminacionReal;
     }
 }
