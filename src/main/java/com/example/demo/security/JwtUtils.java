@@ -18,9 +18,10 @@ public class JwtUtils {
         this.key = Jwts.SIG.HS512.key().build();
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, Long userId) {
         return Jwts.builder()
                 .subject(username)
+                .claim("userId", userId)  // Agregamos el ID del usuario como claim
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key)
@@ -47,5 +48,11 @@ public class JwtUtils {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // Nuevo método para obtener el ID del usuario desde el token
+    public Long getUserIdFromToken(String token) {
+        Claims claims = getClaimsFromToken(token);
+        return claims.get("userId", Long.class);
     }
 }
