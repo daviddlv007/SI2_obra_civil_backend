@@ -95,5 +95,5 @@ public class ObraCivil {
         this.ubicacion = ubicacion;
         this.planoUrl = plano;
         this.fechaTerminacionReal = fechaTerminacionReal;
-    }
+     }
 }
