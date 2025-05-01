@@ -39,7 +39,7 @@ public class PersonaPerroService {
             personaPerro.setId(relacionExistente.getId());
             return personaPerroRepository.save(personaPerro);
         }
-        return null; // Retorna null si no se encuentra la relación
+        return null;
     }
 
     // Eliminar relación

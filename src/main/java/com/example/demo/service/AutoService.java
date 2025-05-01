@@ -39,7 +39,7 @@ public class AutoService {
             auto.setId(autoExistente.getId());
             return autoRepository.save(auto);
         }
-        return null; // Retorna null si no se encuentra el auto
+        return null;
     }
 
     // Eliminar auto
