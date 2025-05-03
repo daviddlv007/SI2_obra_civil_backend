@@ -17,4 +17,14 @@ public class Permiso {
 
     @Column(name = "descripcion", nullable = false, length = 150)
     private String descripcion;
+
+    public Permiso(){
+        //Constructor sin parametros
+    }
+
+    public Permiso(String nombre, String descripcion){
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
 }

@@ -18,4 +18,13 @@ public class Rol {
 
     @Column(name = "descripcion", length = 255)
     private String descripcion;
+
+    public Rol(){
+        //Constructor sin rol
+    }
+
+    public Rol(String nombre, String descripcion){
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
 }
