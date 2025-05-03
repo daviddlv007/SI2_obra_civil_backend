@@ -23,16 +23,16 @@ public class ObraCivil {
     @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
-    @Column(name = "costo_estimado", columnDefinition = "DECIMAL(10, 2)")
+    @Column(name = "costo_estimado", columnDefinition = "DECIMAL(12, 2)")
     private Double costoEstimado;
 
-    @Column(name = "costo", columnDefinition = "DECIMAL(10, 2)")
+    @Column(name = "costo", columnDefinition = "DECIMAL(12, 2)")
     private Double costo;
 
-    @Column(name = "presupuesto", columnDefinition = "DECIMAL(10, 2)")
+    @Column(name = "presupuesto", columnDefinition = "DECIMAL(12, 2)")
     private Double presupuesto;
 
-    @Column(name = "presupuesto_disponible", columnDefinition = "DECIMAL(10, 2)")
+    @Column(name = "presupuesto_disponible", columnDefinition = "DECIMAL(12, 2)")
     private Double presupuestoDisponible;
 
     @Column(name = "fecha_inicio")
@@ -54,8 +54,14 @@ public class ObraCivil {
     @Enumerated(EnumType.STRING)
     private TipoObra tipoObra;
 
-    @Column(name = "ubicacion", length = 255)
-    private String ubicacion;
+    @Column(name = "direccion", length = 255)
+    private String direccion;
+
+    @Column(name = "latitud", columnDefinition = "DECIMAL(10, 6)")
+    private Double latitud;
+
+    @Column(name = "longitud", columnDefinition = "DECIMAL(10, 6)")
+    private Double longitud;
 
     @Column(name = "plano_url", length = 255)
     private String planoUrl;
@@ -79,7 +85,9 @@ public class ObraCivil {
                      String estado, Timestamp fechaCreacion,
                      Timestamp fechaUltimaActualizacion,
                      TipoObra tipoObra,
-                     String ubicacion, String plano, Date fechaTerminacionReal) {
+                     String direccion, Double latitud,
+                     Double longitud, String plano,
+                     Date fechaTerminacionReal) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costoEstimado = costoEstimado;
@@ -92,7 +100,9 @@ public class ObraCivil {
         this.fechaCreacion = fechaCreacion;
         this.fechaUltimaActualizacion = fechaUltimaActualizacion;
         this.tipoObra = tipoObra;
-        this.ubicacion = ubicacion;
+        this.direccion = direccion;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.planoUrl = plano;
         this.fechaTerminacionReal = fechaTerminacionReal;
      }

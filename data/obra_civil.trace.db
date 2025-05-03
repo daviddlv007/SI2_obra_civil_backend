@@ -1,0 +1,26 @@
+2025-05-03 01:52:53.163277-04:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO rol_permiso \000d\000a(permiso_id, rol_id) \000d\000aVALUES \000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),[*]"; se esperaba "ROW (, (, DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "INSERT INTO rol_permiso \000d\000a(permiso_id, rol_id) \000d\000aVALUES \000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),\000d\000a(1,1),[*]"; expected "ROW (, (, DEFAULT, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+INSERT INTO rol_permiso 
+(permiso_id, rol_id) 
+VALUES 
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1),
+(1,1), [42001-232]
+2025-05-03 01:57:13.458656-04:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO usuario \000d\000a(nombre, apellido, correo, contrasena, direccion, fecha_nacimiento, genero, numero_identificacion, telefono, rol_id \000d\000a[*]VALUES \000d\000a('Juan', 'Pérez', 'juan@gmail.com', '12345', 'Av. Beni B/ La Casona Calle Motacu', '1997-02-23', 'Masculino', '34522', '65349867', 1),\000d\000a('María', 'López', 'maria@gmail.com', '12345', 'Calle 12 Nº 34', '1995-06-12', 'Femenino', '34523', '76483920', 2),\000d\000a('Carlos', 'Sánchez', 'carlos@gmail.com', '12345', 'Av. Busch Nº 100', '1990-11-05', 'Masculino', '34524', '72345678', 3),\000d\000a('Laura', 'Ramírez', 'laura@gmail.com', '12345', 'Zona Sur, Calle Landaeta', '1998-09-15', 'Femenino', '34525', '76543210', 2),\000d\000a('Luis', 'Gómez', 'luis@gmail.com', '12345', 'Av. Alemania y 3er anillo', '1992-03-30', 'Masculino', '34526', '71234567', 3),\000d\000a('Ana', 'Martínez', 'ana@gmail.com', '12345', 'Calle Bolívar Nº 78', '1996-07-20', 'Femenino', '34527', '70001122', 2),\000d\000a('Pedro', 'Fernández', 'pedro@gmail.com', '12345', 'Av. Santos Dumont Km 8', '1994-01-10', 'Masculino', '34528', '75556677', 3)"; se esperaba ",, )"
+Syntax error in SQL statement "INSERT INTO usuario \000d\000a(nombre, apellido, correo, contrasena, direccion, fecha_nacimiento, genero, numero_identificacion, telefono, rol_id \000d\000a[*]VALUES \000d\000a('Juan', 'Pérez', 'juan@gmail.com', '12345', 'Av. Beni B/ La Casona Calle Motacu', '1997-02-23', 'Masculino', '34522', '65349867', 1),\000d\000a('María', 'López', 'maria@gmail.com', '12345', 'Calle 12 Nº 34', '1995-06-12', 'Femenino', '34523', '76483920', 2),\000d\000a('Carlos', 'Sánchez', 'carlos@gmail.com', '12345', 'Av. Busch Nº 100', '1990-11-05', 'Masculino', '34524', '72345678', 3),\000d\000a('Laura', 'Ramírez', 'laura@gmail.com', '12345', 'Zona Sur, Calle Landaeta', '1998-09-15', 'Femenino', '34525', '76543210', 2),\000d\000a('Luis', 'Gómez', 'luis@gmail.com', '12345', 'Av. Alemania y 3er anillo', '1992-03-30', 'Masculino', '34526', '71234567', 3),\000d\000a('Ana', 'Martínez', 'ana@gmail.com', '12345', 'Calle Bolívar Nº 78', '1996-07-20', 'Femenino', '34527', '70001122', 2),\000d\000a('Pedro', 'Fernández', 'pedro@gmail.com', '12345', 'Av. Santos Dumont Km 8', '1994-01-10', 'Masculino', '34528', '75556677', 3)"; expected ",, )"; SQL statement:
+INSERT INTO usuario 
+(nombre, apellido, correo, contrasena, direccion, fecha_nacimiento, genero, numero_identificacion, telefono, rol_id 
+VALUES 
+('Juan', 'Pérez', 'juan@gmail.com', '12345', 'Av. Beni B/ La Casona Calle Motacu', '1997-02-23', 'Masculino', '34522', '65349867', 1),
+('María', 'López', 'maria@gmail.com', '12345', 'Calle 12 Nº 34', '1995-06-12', 'Femenino', '34523', '76483920', 2),
+('Carlos', 'Sánchez', 'carlos@gmail.com', '12345', 'Av. Busch Nº 100', '1990-11-05', 'Masculino', '34524', '72345678', 3),
+('Laura', 'Ramírez', 'laura@gmail.com', '12345', 'Zona Sur, Calle Landaeta', '1998-09-15', 'Femenino', '34525', '76543210', 2),
+('Luis', 'Gómez', 'luis@gmail.com', '12345', 'Av. Alemania y 3er anillo', '1992-03-30', 'Masculino', '34526', '71234567', 3),
+('Ana', 'Martínez', 'ana@gmail.com', '12345', 'Calle Bolívar Nº 78', '1996-07-20', 'Femenino', '34527', '70001122', 2),
+('Pedro', 'Fernández', 'pedro@gmail.com', '12345', 'Av. Santos Dumont Km 8', '1994-01-10', 'Masculino', '34528', '75556677', 3) [42001-232]

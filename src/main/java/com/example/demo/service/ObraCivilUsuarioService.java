@@ -48,4 +48,14 @@ public class ObraCivilUsuarioService {
     public void eliminarRelacion(Long id) {
         obraCivilUsuarioRepository.deleteById(id);
     }
+
+    // Método para obtener relaciones por obra_civil_id y rol de usuario
+    public List<ObraCivilUsuario> obtenerRelacionesPorObraCivilYRol(Long obraCivilId, Long rolId) {
+        return obraCivilUsuarioRepository.findByObraCivilIdAndUsuarioRolId(obraCivilId, rolId);
+    }
+
+    // Método para obtener relaciones por obra_civil_id y nombre del rol de usuario
+    public List<ObraCivilUsuario> obtenerRelacionesPorObraCivilYRol(Long obraCivilId, String rolNombre) {
+        return obraCivilUsuarioRepository.findByObraCivilIdAndUsuarioRolNombre(obraCivilId, rolNombre);
+    }
 }

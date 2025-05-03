@@ -58,4 +58,16 @@ public class ObraCivilController {
         obraCivilService.eliminarObra(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Listar todas las obras civiles con los usuarios (empleado y cliente) asignados
+    @GetMapping("/con-usuarios")
+    public ResponseEntity<List<ObraCivil>> getObrasCivilesConUsuarios() {
+        List<ObraCivil> obrasCiviles = obraCivilService.getObrasCivilesConUsuariosPorRoles();
+
+        if (obrasCiviles.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(obrasCiviles, HttpStatus.OK);
+    }
 }

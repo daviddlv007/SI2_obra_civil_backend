@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,47 @@ public class UsuarioController {
             return new ResponseEntity<>(usuario, HttpStatus.OK);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    // Listar todos los usuarios ordenados por ID de manera descendente
+    @GetMapping("/descendente")
+    public ResponseEntity<List<Usuario>> getUsuariosDesc() {
+        List<Usuario> usuarios = usuarioService.getAllUsuariosDesc();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    }
+
+    // Listar todos los usuarios ordenados por ID de manera ascendente
+    @GetMapping("/ascendente")
+    public ResponseEntity<List<Usuario>> getUsuariosAsc() {
+        List<Usuario> usuarios = usuarioService.getAllUsuariosAsc();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    }
+
+    // Listar todos los usuarios ordenados por un campo especificado en la URL
+    //GET /api/usuarios/ordenado?campo=id&orden=desc: Ordena por id en orden descendente
+    //GET /api/usuarios/ordenado?campo=nombre&orden=asc: Ordena por nombre en orden ascendente
+    @GetMapping("/ordenado")
+    public ResponseEntity<List<Usuario>> getUsuariosOrdenados(
+            @RequestParam(value = "campo", defaultValue = "id") String campo,
+            @RequestParam(value = "orden", defaultValue = "desc") String orden) {
+
+        Sort sort = Sort.by(orden.equalsIgnoreCase("asc") ? Sort.Order.asc(campo) : Sort.Order.desc(campo));
+        List<Usuario> usuarios = usuarioService.getUsuariosOrdenados(sort);
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    }
+
+    // Listar usuarios por nombre de rol
+    @GetMapping("/por-rol/{nombreRol}")
+    public ResponseEntity<List<Usuario>> getUsuariosByRol(@PathVariable String nombreRol) {
+        // Obtener los usuarios con el rol especificado por nombre
+        List<Usuario> usuarios = usuarioService.getUsuariosByRolNombre(nombreRol);
+
+        // Si no se encuentran usuarios con ese rol, respondemos con un 404
+        if (usuarios.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // Devolver los usuarios encontrados
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 }
