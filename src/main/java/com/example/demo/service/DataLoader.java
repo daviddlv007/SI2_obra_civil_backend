@@ -170,7 +170,7 @@ public class DataLoader implements CommandLineRunner {
                     Date.valueOf("2027-04-10")
             ));
 
-            // Ejemplo 8
+            // Ejemplo 8//
             obraCivilRepository.save(new ObraCivil(
                     "Viviendas Sociales El Paraíso",
                     "Proyecto de construcción de viviendas para familias de bajos recursos.",
