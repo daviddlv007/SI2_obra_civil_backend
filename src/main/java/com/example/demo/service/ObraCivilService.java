@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.ObraCivil;
 import com.example.demo.repository.ObraCivilRepository;
+import com.example.demo.repository.ObraCivilUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,9 @@ import java.util.Optional;
 public class ObraCivilService {
 
     private final ObraCivilRepository obraCivilRepository;
+
+    @Autowired
+    private ObraCivilUsuarioRepository obraCivilUsuarioRepository;
 
     @Autowired
     public ObraCivilService(ObraCivilRepository obraCivilRepository) {
@@ -46,5 +50,10 @@ public class ObraCivilService {
     // Eliminar obra civil
     public void eliminarObra(Long id) {
         obraCivilRepository.deleteById(id);
+    }
+
+    // Obtener todas las obras civiles con los usuarios asignados que tienen los roles "empleado" y "cliente"
+    public List<ObraCivil> getObrasCivilesConUsuariosPorRoles() {
+        return obraCivilUsuarioRepository.findObrasCivilesConUsuariosPorRoles();
     }
 }

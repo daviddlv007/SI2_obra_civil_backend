@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.ObraCivil;
+import com.example.demo.entity.Permiso;
 import com.example.demo.repository.ObraCivilRepository;
+import com.example.demo.repository.PermisoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,9 +17,12 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private ObraCivilRepository obraCivilRepository;
 
+    @Autowired
+    private PermisoRepository permisoRepository;
+
     @Override
     public void run(String... args) throws Exception {
-        if (obraCivilRepository.count() == 0) {
+        /*if (obraCivilRepository.count() == 0) {
             // Ejemplo 1
             obraCivilRepository.save(new ObraCivil(
                     "Residencial Santa María",
@@ -33,6 +38,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.VIVIENDA,
                     "Av. Principal 123, Ciudad X",
+                    -17.726357, //latitud
+                    -63.179531, // longitud
                     "https://www.edrawsoft.com/templates/images/electrical-plan.png",
                     Date.valueOf("2024-12-15")
             ));
@@ -52,6 +59,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.COMERCIAL,
                     "Calle Ficticia 456, Zona Industrial",
+                    -17.692702, //latitud
+                    -63.144197, // longitud
                     "https://www.edrawsoft.com/templates/images/office-layout.png",
                     Date.valueOf("2026-05-01")
             ));
@@ -71,6 +80,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.INDUSTRIAL,
                     "Carretera Nacional, km 100",
+                    -17.774436, //latitud
+                    -63.107653, // longitud
                     "https://www.edrawsoft.com/templates/images/home-reflected-ceiling-plan.png",
                     Date.valueOf("2025-07-15")
             ));
@@ -90,6 +101,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.COMERCIAL,
                     "Avenida 12 de Octubre, Zona Norte",
+                    -17.838316, //latitud
+                    -63.123181, // longitud
                     "https://www.edrawsoft.com/templates/images/electrical-plan.png",
                     Date.valueOf("2027-02-01")
             ));
@@ -109,6 +122,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.OTROS,
                     "Calle de la Salud 789, Sur de la Ciudad",
+                    -17.867001, //latitud
+                    -63.159342, // longitud
                     "https://www.edrawsoft.com/templates/images/office-layout.png",
                     Date.valueOf("2026-09-10")
             ));
@@ -128,6 +143,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.OTROS,
                     "Autopista Central, tramo 1",
+                    -17.865037, //latitud
+                    -63.203040, // longitud
                     "https://www.edrawsoft.com/templates/images/home-reflected-ceiling-plan.png",
                     Date.valueOf("2028-06-01")
             ));
@@ -147,6 +164,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.INDUSTRIAL,
                     "Zona industrial, Parque Solar",
+                    -17.841930, //latitud
+                    -63.233385, // longitud
                     "https://www.edrawsoft.com/templates/images/electrical-plan.png",
                     Date.valueOf("2027-04-10")
             ));
@@ -166,6 +185,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.VIVIENDA,
                     "Calle La Paz 123, El Paraíso",
+                    -17.754218, //latitud
+                    -63.226480, // longitud
                     "https://www.edrawsoft.com/templates/images/office-layout.png",
                     Date.valueOf("2025-11-01")
             ));
@@ -185,6 +206,8 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.OTROS,
                     "Avenida Olímpica 789, Ciudad Deportiva",
+                    -17.728778, //latitud
+                    -63.217774, // longitud
                     "https://www.edrawsoft.com/templates/images/home-reflected-ceiling-plan.png",
                     Date.valueOf("2027-03-20")
             ));
@@ -204,11 +227,54 @@ public class DataLoader implements CommandLineRunner {
                     new Timestamp(System.currentTimeMillis()),
                     ObraCivil.TipoObra.OTROS,
                     "Zona centro de la ciudad",
+                    -17.785936, //latitud
+                    -63.215882, // longitud
                     "https://www.edrawsoft.com/templates/images/electrical-plan.png",
                     Date.valueOf("2026-08-01")
             ));
 
             System.out.println("Datos de ejemplo insertados en la base de datos.");
+        }*/
+
+        if (permisoRepository.count() == 0) {
+            permisoRepository.save(new Permiso(
+                    "Crear Usuario",
+                    "Permite la creación de nuevos usuarios en el sistema"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Editar Usuario",
+                    "Permite modificar los datos y configuraciones de un usuario existente"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Eliminar Usuario",
+                    "Permite eliminar un usuario del sistema"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Crear Rol",
+                    "Permite la creación de nuevos roles dentro del sistema"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Editar Rol",
+                    "Permite modificar los permisos o detalles de un rol existente"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Eliminar Rol",
+                    "Permite eliminar un rol del sistema"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Crear Permiso",
+                    "Permite la creación de nuevos permisos dentro del sistema"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Editar Permiso",
+                    "Permite modificar los permisos existentes para diferentes usuarios o roles"
+            ));
+            permisoRepository.save(new Permiso(
+                    "Eliminar Permiso",
+                    "Permite eliminar un permiso del sistema"
+            ));
+
+            System.out.println("Datos de permiso insertados en la base de datos.");
         }
     }
 }

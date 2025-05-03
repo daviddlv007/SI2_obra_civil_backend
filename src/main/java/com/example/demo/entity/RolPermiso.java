@@ -20,4 +20,6 @@ public class RolPermiso {
     @ManyToOne
     @JoinColumn(name = "permiso_id", nullable = false)
     private Permiso permiso;
+
+
 }

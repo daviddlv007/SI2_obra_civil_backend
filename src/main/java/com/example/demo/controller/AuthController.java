@@ -57,7 +57,12 @@ public class AuthController {
                             bitacoraRepository.save(bitacora);
                         }
 
-                        return ResponseEntity.ok(Map.of("token", token));
+                        return ResponseEntity.ok(Map.of(
+                                "token", token,
+                                "id", usuario.getId(),
+                                "nombre", usuario.getNombre(),
+                                "correo", usuario.getCorreo()
+                        ));
                     }
                     return ResponseEntity.badRequest().body("Contraseña incorrecta");
                 })
