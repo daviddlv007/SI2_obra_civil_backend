@@ -60,4 +60,31 @@ public class ObraCivilUsuarioController {
         obraCivilUsuarioService.eliminarRelacion(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Endpoint para obtener relaciones por obra_civil_id y rol de usuario (Cliente o Empleado)
+    @GetMapping("/obra-civil/{obraCivilId}/rol/{rolId}")
+    public ResponseEntity<List<ObraCivilUsuario>> obtenerRelacionesPorObraCivilYRol(
+            @PathVariable Long obraCivilId,
+            @PathVariable Long rolId) {
+
+        List<ObraCivilUsuario> relaciones = obraCivilUsuarioService.obtenerRelacionesPorObraCivilYRol(obraCivilId, rolId);
+        if (!relaciones.isEmpty()) {
+            return new ResponseEntity<>(relaciones, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // Endpoint para obtener relaciones por obra_civil_id y nombre del rol de usuario (Cliente o Empleado)
+    @GetMapping("{obraCivilId}/rol/{rolNombre}")
+    public ResponseEntity<List<ObraCivilUsuario>> obtenerRelacionesPorObraCivilYRolN(
+            @PathVariable Long obraCivilId,
+            @PathVariable String rolNombre) {
+
+        List<ObraCivilUsuario> relaciones = obraCivilUsuarioService.obtenerRelacionesPorObraCivilYRol(obraCivilId, rolNombre);
+        if (!relaciones.isEmpty()) {
+            return new ResponseEntity<>(relaciones, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
