@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.ObraCivil;
+import com.example.demo.entity.Usuario;
 import com.example.demo.service.ObraCivilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,5 +70,12 @@ public class ObraCivilController {
         }
 
         return new ResponseEntity<>(obrasCiviles, HttpStatus.OK);
+    }
+
+    // Listar todos los usuarios ordenados por ID de manera ascendente
+    @GetMapping("/list-desc")
+    public ResponseEntity<List<ObraCivil>> getObrasAsc() {
+        List<ObraCivil> obras = obraCivilService.getAllObrasCivilesAsc();
+        return new ResponseEntity<>(obras, HttpStatus.OK);
     }
 }

@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.ObraCivil;
+import com.example.demo.entity.Usuario;
 import com.example.demo.repository.ObraCivilRepository;
 import com.example.demo.repository.ObraCivilUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +57,10 @@ public class ObraCivilService {
     // Obtener todas las obras civiles con los usuarios asignados que tienen los roles "empleado" y "cliente"
     public List<ObraCivil> getObrasCivilesConUsuariosPorRoles() {
         return obraCivilUsuarioRepository.findObrasCivilesConUsuariosPorRoles();
+    }
+
+    // Obtener todos los usuarios ordenados por ID de manera ascendente
+    public List<ObraCivil> getAllObrasCivilesAsc() {
+        return obraCivilRepository.findAll(Sort.by(Sort.Order.desc("id")));
     }
 }
