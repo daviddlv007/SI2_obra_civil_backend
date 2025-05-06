@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 @Data
 @NoArgsConstructor
@@ -36,8 +38,9 @@ public class Bitacora {
     @Column(name = "ip_origen")
     private String ipOrigen;
 
+    @Builder.Default
     @CreationTimestamp
     @Column(name = "fecha", updatable = false)
-    private LocalDateTime fecha;
+    private OffsetDateTime fecha = OffsetDateTime.now(ZoneId.of("America/La_Paz"));
 
 }
