@@ -110,7 +110,7 @@ public class BackupController {
                 .body(resource);
     }
 
-    // Google Driver List ok ok ok
+    // Google Driver List OK
     @GetMapping("/api/backups")
     public List<DriveFileDto> listarBackups() throws IOException {
         return googleDriveUploader.listBackupFiles();
