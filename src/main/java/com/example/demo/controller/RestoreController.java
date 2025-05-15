@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.util.GoogleDriveUploader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,65 +18,8 @@ import java.sql.Statement;
 @RequestMapping("/backup")
 public class RestoreController {
 
-    @PostMapping("/restore/postgresql")
-    public ResponseEntity<String> restoreDatabasePostgreSQL(@RequestParam("file") MultipartFile file) {
-        try {
-            // Guardar el archivo temporalmente
-            File tempFile = File.createTempFile("backup", ".sql");
-            file.transferTo(tempFile);
-
-            // Comando para restaurar la base de datos PostgreSQL usando el archivo de backup
-            String command = "psql -U usuario base_de_datos < " + tempFile.getAbsolutePath();
-            ProcessBuilder processBuilder = new ProcessBuilder("sh", "-c", command);
-            processBuilder.start();
-
-            return ResponseEntity.ok("Restauración PostgreSQL iniciada correctamente.");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al restaurar la base de datos PostgreSQL: " + e.getMessage());
-        }
-    }
-
-    @PostMapping("/restore/mysql")
-    public ResponseEntity<String> restoreDatabaseMySQL(@RequestParam("file") MultipartFile file) {
-        try {
-            // Guardar el archivo temporalmente
-            File tempFile = File.createTempFile("backup", ".sql");
-            file.transferTo(tempFile);
-
-            // Comando para restaurar la base de datos MySQL usando el archivo de backup
-            String command = "mysql -u usuario -pcontraseña base_de_datos < " + tempFile.getAbsolutePath();
-            ProcessBuilder processBuilder = new ProcessBuilder("sh", "-c", command);
-            processBuilder.start();
-
-            return ResponseEntity.ok("Restauración MySQL iniciada correctamente.");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al restaurar la base de datos MySQL: " + e.getMessage());
-        }
-    }
-
-    /*@PostMapping("/restore/h2")
-    public ResponseEntity<String> restoreDatabase(@RequestParam("file") MultipartFile file) {
-        try {
-            // Guardar el archivo temporalmente
-            File tempFile = File.createTempFile("backup", ".zip");
-            file.transferTo(tempFile);
-
-            // Comando para restaurar la base de datos desde el archivo ZIP
-            String restoreCommand = "RESTORE FROM '" + tempFile.getAbsolutePath() + "';";
-            Connection conn = DriverManager.getConnection("jdbc:h2:~/obra_civil", "sa", "");
-            Statement stmt = conn.createStatement();
-            stmt.execute(restoreCommand);
-            stmt.close();
-            conn.close();
-
-            return ResponseEntity.ok("Restauración iniciada correctamente.");
-        } catch (SQLException | IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al restaurar la base de datos: " + e.getMessage());
-        }
-    }*/
+    @Autowired
+    private GoogleDriveUploader googleDriveUploader;
 
     @PostMapping("/restore/h2")
     public ResponseEntity<String> restoreDatabase(@RequestParam("file") MultipartFile file) {
@@ -111,5 +56,16 @@ public class RestoreController {
                     .body("Error al restaurar la base de datos: " + e.getMessage());
         }
     }
+
+    @PostMapping("/restore/{fileId}")
+    public ResponseEntity<String> restoreBackup(@PathVariable String fileId) {
+        try {
+            googleDriveUploader.restoreBackup(fileId);
+            return ResponseEntity.ok("Backup restaurado correctamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al restaurar backup: " + e.getMessage());
+        }
+    }
+
 
 }

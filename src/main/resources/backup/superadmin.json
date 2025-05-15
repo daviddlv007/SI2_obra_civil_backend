@@ -1,0 +1,6 @@
+{
+  "name": "Super Admin",
+  "email": "admin@sistema.com",
+  "passwordHash": "$2a$10$VfW9r9eQ9o4wBZGAvYEFgei1kYxgYYyUceZ3Ulg6Lg4OKL/3gO3jK",
+  "role": "SUPERADMIN"
+}
