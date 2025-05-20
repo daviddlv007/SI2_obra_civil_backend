@@ -18,6 +18,9 @@ public class Auto {
 
     @Column(name = "modelo", nullable = false, length = 100)
     private String modelo;
+    
+    @Column(name = "modelo2", nullable = false, length = 100)
+    private String modelo2;
 
     @ManyToOne
     @JoinColumn(name = "persona_id", nullable = false)
