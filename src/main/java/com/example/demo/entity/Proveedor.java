@@ -1,0 +1,42 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Data
+@Table(name = "proveedor")
+public class Proveedor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "nombre_completo", nullable = false, length = 100)
+    private String nombreCompleto;
+
+    @Column(name = "nit_ci", nullable = false, length = 20, unique = true)
+    private String nitCi;
+
+    @Column(name = "telefono", length = 20)
+    private String telefono;
+
+    @Column(name = "correo", length = 100)
+    private String correo;
+
+    @Column(name = "direccion", length = 200)
+    private String direccion;
+
+    @Column(name = "ciudad", length = 50)
+    private String ciudad;
+
+    @Column(name = "pais", length = 50)
+    private String pais;
+
+    @Column(name = "empresa", length = 100)
+    private String empresa;
+
+    @Column(name = "estado", length = 20)
+    private String estado; // "Activo" o "Inactivo"
+}
