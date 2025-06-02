@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
+
+import com.example.demo.dto.DriveFileDto;
 import com.example.demo.entity.Backup;
 import com.example.demo.repository.BackupRepository;
+import com.example.demo.service.BackupService;
+import com.example.demo.util.GoogleDriveUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -13,86 +17,25 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/backup")
 public class BackupController {
 
-    @PostMapping("/database/postgresql")
-    public ResponseEntity<String> backupDatabasePostgreSQL() {
-        try {
-            // Verificar si el directorio de backup existe, si no, crearlo
-            File backupDir = new File("E:/backup/");
-            if (!backupDir.exists()) {
-                backupDir.mkdirs();  // Crea la carpeta si no existe
-            }
+    private final BackupService backupService;
 
-            // Comando para realizar el backup de PostgreSQL usando pg_dump
-            String command = "set PGPASSWORD=12345 && \"C:\\Program Files\\PostgreSQL\\16\\bin\\pg_dump\" -U postgres -h localhost -p 5432 db_obra_civil";
-
-            // En Windows, debemos usar "cmd.exe" en lugar de "sh"
-            ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", command);
-            processBuilder.redirectOutput(new File("E:/backup/backup.sql")); // Redirige la salida al archivo
-            ////processBuilder.start();
-
-            //ProcessBuilder processBuilder = new ProcessBuilder("sh", "-c", command);
-            //processBuilder.start();
-
-            ////return ResponseEntity.ok("Backup PostgreSQL realizado correctamente.");
-            Process process = processBuilder.start();
-
-            // Capturar la salida estándar (stdout)
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder errorOutput = new StringBuilder();
-            String line;
-            //StringBuilder output = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                errorOutput.append(line).append("\n");
-            }
-
-            // Capturar la salida de error (stderr)
-            /*BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            StringBuilder errorOutput = new StringBuilder();
-            while ((line = errorReader.readLine()) != null) {
-                errorOutput.append(line).append("\n");
-            }*/
-
-            // Esperar a que el proceso termine
-            int exitCode = process.waitFor();
-
-            if (exitCode == 0) {
-                return ResponseEntity.ok("Backup PostgreSQL realizado correctamente.");
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Error al realizar el backup de PostgreSQL: " + errorOutput.toString());
-            }
-        } catch (IOException | InterruptedException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al realizar el backup de PostgreSQL: " + e.getMessage());
-        }
-    }
-
-    @PostMapping("/database/mysql")
-    public ResponseEntity<String> backupDatabaseMySQL() {
-        try {
-            // Comando para realizar el backup de MySQL usando mysqldump
-            String command = "mysqldump -u usuario -pcontraseña base_de_datos > /ruta/del/backup/backup.sql";
-            ProcessBuilder processBuilder = new ProcessBuilder("sh", "-c", command);
-            processBuilder.start();
-
-            return ResponseEntity.ok("Backup MySQL realizado correctamente.");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al realizar el backup de MySQL: " + e.getMessage());
-        }
+    public BackupController(BackupService backupService) {
+        this.backupService = backupService;
     }
 
     @Autowired
     private BackupRepository backupRepository;
+
+    @Autowired
+    private GoogleDriveUploader googleDriveUploader;
+
 
     @PostMapping("/database/h2")
     public ResponseEntity<Map<String, String>> backupDatabase() {
@@ -169,4 +112,85 @@ public class BackupController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                 .body(resource);
     }
+
+
+    // Google Driver List
+    @GetMapping("/api/backups")
+    public List<DriveFileDto> listarBackups() throws IOException {
+        return googleDriveUploader.listBackupFiles();
+    }
+
+    /*@PostMapping("/drive")
+    public ResponseEntity<Map<String, String>> backupToGoogleDrive() {
+        try {
+            // Crear backup local (mismo que usas en /database/h2)
+            String backupDirectory = "backup";
+            String backupFilePath = "backup/backup_" + UUID.randomUUID().toString() + ".zip";
+
+            File directory = new File(backupDirectory);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            String backupCommand = "BACKUP TO '" + backupFilePath + "';";
+            Connection conn = DriverManager.getConnection("jdbc:h2:~/obra_civil", "sa", "");
+            Statement stmt = conn.createStatement();
+            stmt.execute(backupCommand);
+            stmt.close();
+            conn.close();
+
+            // Subir a Google Drive
+            File backupFile = new File(backupFilePath);
+            String fileId = googleDriveUploader.uploadFile(backupFile);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Backup subido a Google Drive correctamente.");
+            response.put("fileId", fileId);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Error al subir el backup: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }*/
+
+    @PostMapping("/drive")
+    public ResponseEntity<Map<String, String>> backupToGoogleDrive() {
+        try {
+            backupService.ejecutarBackupManual();
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Backup ejecutado y subido a Google Drive correctamente.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Error al ejecutar el backup: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
+
+    @GetMapping("/drive/download/{fileId}")
+    public ResponseEntity<Resource> downloadDriveBackup(@PathVariable String fileId) {
+        try {
+            // Descargar archivo a un archivo temporal
+            File tempFile = File.createTempFile("drive_backup_", ".zip");
+            try (OutputStream outputStream = new FileOutputStream(tempFile)) {
+                googleDriveUploader.getDriveService()
+                        .files()
+                        .get(fileId)
+                        .executeMediaAndDownloadTo(outputStream);
+            }
+
+            Resource resource = new UrlResource(tempFile.toURI());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + tempFile.getName() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 }
