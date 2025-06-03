@@ -1,7 +1,11 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -39,4 +43,8 @@ public class Proveedor {
 
     @Column(name = "estado", length = 20)
     private String estado; // "Activo" o "Inactivo"
+
+    /*@OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Compra> compras = new ArrayList<>();*/
 }
