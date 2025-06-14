@@ -45,4 +45,9 @@ public class ProveedorService {
     public void eliminarProveedor(Long id) {
         proveedorRepository.deleteById(id);
     }
+
+    // Nuevo método para filtrar por tipoProveedor
+    public List<Proveedor> obtenerProveedoresPorTipo(Proveedor.TipoProveedor tipoProveedor) {
+        return proveedorRepository.findByTipoProveedor(tipoProveedor);
+    }
 }

@@ -70,4 +70,11 @@ public ResponseEntity<?> crearProveedor(@RequestBody Proveedor proveedor) {
         proveedorService.eliminarProveedor(id);
         return ResponseEntity.noContent().build();
     }
+
+    //GET http://localhost:8080/proveedores/tipo?tipo=SERVICIO
+    @GetMapping("/tipo")
+    public ResponseEntity<List<Proveedor>> obtenerProveedoresPorTipo(@RequestParam("tipo") Proveedor.TipoProveedor tipoProveedor) {
+        List<Proveedor> proveedores = proveedorService.obtenerProveedoresPorTipo(tipoProveedor);
+        return new ResponseEntity<>(proveedores, HttpStatus.OK);
+    }
 }
