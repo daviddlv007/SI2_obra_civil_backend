@@ -17,6 +17,9 @@ public class Compra {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "numero_compra", unique = true, nullable = false, updatable = false)
+    private Long numeroCompra;
+
     @Column(name = "fecha")
     private LocalDate fecha;
 
@@ -26,5 +29,13 @@ public class Compra {
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = false)
     private Proveedor proveedor;
+
+    @Column(name = "estado_compra", length = 50)
+    @Enumerated(EnumType.STRING)
+    private Compra.EstadoCompra estadoCompra;
+
+    public enum EstadoCompra {
+        PENDIENTE, APROBADO, CANCELADA
+    }
 
 }

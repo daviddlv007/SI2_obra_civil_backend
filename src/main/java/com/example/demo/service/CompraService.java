@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Compra;
 import com.example.demo.repository.CompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,6 +32,8 @@ public class CompraService {
     }
 
     public Compra crearCompra(Compra compra) {
+
+        compra.setNumeroCompra(this.generarSiguienteNumeroCompra());
         return compraRepository.save(compra);
     }
 
@@ -45,5 +48,14 @@ public class CompraService {
 
     public void eliminarCompra(Long id) {
         compraRepository.deleteById(id);
+    }
+
+    public Long generarSiguienteNumeroCompra() {
+        Long ultimoNumero = compraRepository.findMaxNumeroCompra().orElse(1000L);
+        return ultimoNumero + 1;
+    }
+
+    public List<Compra> obtenerComprasOrdenadasDescPorId() {
+        return compraRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 }
