@@ -41,8 +41,16 @@ public class Proveedor {
     @Column(name = "empresa", length = 100)
     private String empresa;
 
+    @Column(name = "tipo_proveedor", length = 50)
+    @Enumerated(EnumType.STRING)
+    private Proveedor.TipoProveedor tipoProveedor;
+
     @Column(name = "estado", length = 20)
     private String estado; // "Activo" o "Inactivo"
+
+    public enum TipoProveedor {
+        MATERIAL, EQUIPO, SERVICIO, OTROS
+    }
 
     /*@OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

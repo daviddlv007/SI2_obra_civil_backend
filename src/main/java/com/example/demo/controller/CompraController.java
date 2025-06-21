@@ -26,6 +26,12 @@ public class CompraController {
         return new ResponseEntity<>(compraService.obtenerTodosLasCompras(), HttpStatus.OK);
     }
 
+    @GetMapping("/ordenadas")
+    public ResponseEntity<List<Compra>> obtenerComprasOrdenadasDesc() {
+        List<Compra> compras = compraService.obtenerComprasOrdenadasDescPorId();
+        return new ResponseEntity<>(compras, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Compra> obtenerCompraPorId(@PathVariable Long id) {
         Compra compra = compraService.obtenerCompraPorId(id);
