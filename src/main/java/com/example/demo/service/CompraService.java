@@ -3,7 +3,8 @@ package com.example.demo.service;
 import com.example.demo.entity.Compra;
 import com.example.demo.repository.CompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -50,6 +51,15 @@ public class CompraService {
         compraRepository.deleteById(id);
     }
 
+    public Compra cambiarEstadoCompra(Long id, Compra.EstadoCompra nuevoEstado) {
+        Compra compra = obtenerCompraPorId(id);
+        if (compra != null) {
+            compra.setEstadoCompra(nuevoEstado);
+            return compraRepository.save(compra);
+        }
+        return null;
+    }
+
     public Long generarSiguienteNumeroCompra() {
         Long ultimoNumero = compraRepository.findMaxNumeroCompra().orElse(1000L);
         return ultimoNumero + 1;
@@ -57,5 +67,61 @@ public class CompraService {
 
     public List<Compra> obtenerComprasOrdenadasDescPorId() {
         return compraRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    // reportes
+    public Page<Compra> filtrarCompras(
+            LocalDate fechaInicio,
+            LocalDate fechaFin,
+            String tipoProveedor,
+            String estadoCompra,
+            Pageable pageable) {
+
+        Specification<Compra> spec = Specification.where(null);
+
+        if (fechaInicio != null && fechaFin != null) {
+            spec = spec.and(fechaEntre(fechaInicio, fechaFin));
+        } else if (fechaInicio != null) {
+            spec = spec.and(fechaMayorOIgualQue(fechaInicio));
+        } else if (fechaFin != null) {
+            spec = spec.and(fechaMenorOIgualQue(fechaFin));
+        }
+
+        if (tipoProveedor != null && !tipoProveedor.isEmpty()) {
+            spec = spec.and(conTipoProveedor(tipoProveedor));
+        }
+
+        if (estadoCompra != null && !estadoCompra.isEmpty()) {
+            spec = spec.and(conEstadoCompra(estadoCompra));
+        }
+
+        return compraRepository.findAll(spec, pageable);
+    }
+
+    // Métodos auxiliares para las Specifications
+    private Specification<Compra> fechaEntre(LocalDate inicio, LocalDate fin) {
+        return (root, query, cb) -> cb.between(root.get("fecha"), inicio, fin);
+    }
+
+    private Specification<Compra> fechaMayorOIgualQue(LocalDate fecha) {
+        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("fecha"), fecha);
+    }
+
+    private Specification<Compra> fechaMenorOIgualQue(LocalDate fecha) {
+        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("fecha"), fecha);
+    }
+
+    private Specification<Compra> conTipoProveedor(String tipo) {
+        return (root, query, cb) -> cb.equal(
+                root.join("proveedor").get("tipoProveedor"),
+                tipo
+        );
+    }
+
+    private Specification<Compra> conEstadoCompra(String estado) {
+        return (root, query, cb) -> cb.equal(
+                root.get("estadoCompra"),
+                Compra.EstadoCompra.valueOf(estado)
+        );
     }
 }

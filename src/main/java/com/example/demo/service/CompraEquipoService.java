@@ -42,4 +42,7 @@ public class CompraEquipoService {
         compraEquipoRepository.deleteById(id);
     }
 
+    public List<CompraEquipo> obtenerComprasPorId(Long compraId) {
+        return compraEquipoRepository.findByCompraId(compraId);
+    }
 }

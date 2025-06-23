@@ -54,4 +54,9 @@ public class CompraMaterialController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/compras/{id}")
+    public ResponseEntity<List<CompraMaterial>> obtenerComprasPorId(@PathVariable Long id) {
+        return new ResponseEntity<>(compraMaterialService.obtenerComprasPorId(id), HttpStatus.OK);
+    }
+
 }
