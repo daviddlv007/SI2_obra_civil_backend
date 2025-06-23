@@ -41,4 +41,8 @@ public class CompraMaterialService {
     public void eliminar(Long id) {
         compraMaterialRepository.deleteById(id);
     }
+
+    public List<CompraMaterial> obtenerComprasPorId(Long compraId) {
+        return compraMaterialRepository.findByCompraId(compraId);
+    }
 }

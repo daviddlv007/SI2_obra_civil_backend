@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.CompraEquipo;
+import com.example.demo.entity.CompraMaterial;
 import com.example.demo.service.CompraEquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,11 @@ public class CompraEquipoController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         compraEquipoService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/compras/{id}")
+    public ResponseEntity<List<CompraEquipo>> obtenerComprasPorId(@PathVariable Long id) {
+        return new ResponseEntity<>(compraEquipoService.obtenerComprasPorId(id), HttpStatus.OK);
     }
 
 }
